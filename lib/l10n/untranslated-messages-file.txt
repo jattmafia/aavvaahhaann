@@ -1,0 +1,13 @@
+{
+  "hi": [
+    "addArtist",
+    "avahanPrivacypolicy",
+    "avahanTermsOfUse",
+    "byTappingYouAgreeToCreateAccount",
+    "iconImage",
+    "skip",
+    "didntReceive",
+    "didntReceiveInSec",
+    "requestAgain"
+  ]
+}

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>906533537374-1tp55hmr5tthc5acgpa7n7plpmh71nib.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.906533537374-1tp55hmr5tthc5acgpa7n7plpmh71nib</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>906533537374-3shmsli7dfupcqg99d8239fgbc059c2n.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDtsX1VrXVlEU8Uk0MyXDMvP3qWaSbiqIM</string>
+	<key>GCM_SENDER_ID</key>
+	<string>906533537374</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.avahan.ios</string>
+	<key>PROJECT_ID</key>
+	<string>avahan-ceff5</string>
+	<key>STORAGE_BUCKET</key>
+	<string>avahan-ceff5.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:906533537374:ios:7af75024cb9a459f8756cf</string>
+</dict>
+</plist>

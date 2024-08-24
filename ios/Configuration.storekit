@@ -1,0 +1,73 @@
+{
+  "identifier" : "7809A9F3",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+
+  ],
+  "settings" : {
+    "_applicationInternalID" : "6449548456",
+    "_developerTeamID" : "GGD5N4GCAD",
+    "_failTransactionsEnabled" : false,
+    "_lastSynchronizedDate" : 736522766.53164995,
+    "_storeKitErrors" : [
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Load Products"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Purchase"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Verification"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Store Sync"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Subscription Status"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Transaction"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Manage Subscriptions Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Refund Request Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Offer Code Redeem Sheet"
+      }
+    ]
+  },
+  "subscriptionGroups" : [
+
+  ],
+  "subscriptionOffersKeyPair" : {
+    "id" : "FFEB8E64",
+    "privateKey" : "MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgneSh9U1wh3rgBLVl+/gKF/SAFsv1CbVpySQrGfd6tCigCgYIKoZIzj0DAQehRANCAATm1LQ1UanQIkmO/ARGh4as00yQkwYcvRLYZUQjE3PpiUH+BA/S3A1IQ5DfPHQG9r4XTL6rH54hm4QMKYZ7Jn+L"
+  },
+  "version" : {
+    "major" : 3,
+    "minor" : 0
+  }
+}

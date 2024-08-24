@@ -1,0 +1,17 @@
+	<key>com.apple.security.app-sandbox</key>
+	<true/>
+	<key>com.apple.security.cs.allow-jit</key>
+	<true/>
+	<key>com.apple.security.network.server</key>
+	<true/>
+	<key>com.apple.security.network.client</key>
+	<true/>
+
+
+{image: https://mkbvsgqlqljqnfvqtrku.supabase.co/storage/v1/object/sign/settings/1706511152175.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJzZXR0aW5ncy8xNzA2NTExMTUyMTc1LmpwZyIsImlhdCI6MTcwNjUxMTE1NSwiZXhwIjo0ODYwMTExMTU1fQ.FvY6kuLJtW4DGBZFf70ijkrZys4WyF2wN-bk81e12sE, action: artist, ids: [14, 23, 25, 26], link: https://avahan.app/, dateTimeSlot: null, active: true, imageHi: null, id: 014e2900-ef94-1067-b53f-13b83b5a5faf}
+{image: https://mkbvsgqlqljqnfvqtrku.supabase.co/storage/v1/render/image/sign/settings/1712193652350.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJzZXR0aW5ncy8xNzEyMTkzNjUyMzUwLnBuZyIsInRyYW5zZm9ybWF0aW9ucyI6ImhlaWdodDo1MTIsd2lkdGg6NTEyLHJlc2l6ZTpjb3ZlciIsImlhdCI6MTcxMjE5MzY1NCwiZXhwIjo0ODY1NzkzNjU0fQ.k6nJIIG6kFO80yvfHEjvxdPhkv3GFoDwsx8-eDvStcc, action: null, ids: null, link: null, dateTimeSlot: null, active: true, imageHi: null, id: 014e2901-ef94-1067-b53f-13b83b5a5faf}
+
+
+    	<true/>
+		<key>com.apple.security.network.client</key>
+	<true/>

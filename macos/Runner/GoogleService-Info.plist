@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>804158452023-81rj8946k4evbpk9080t3hn42p8tvmum.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAlbEGjl40efk-t8-eqVtJq4KoOlSZpVsY</string>
+	<key>GCM_SENDER_ID</key>
+	<string>804158452023</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.avahan.avahan.RunnerTests</string>
+	<key>PROJECT_ID</key>
+	<string>avahan-dev</string>
+	<key>STORAGE_BUCKET</key>
+	<string>avahan-dev.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:804158452023:ios:3207e0e66dfb6731a36ab2</string>
+</dict>
+</plist>

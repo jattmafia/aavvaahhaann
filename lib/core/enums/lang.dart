@@ -1,0 +1,6 @@
+
+
+enum Lang {
+  en,
+  hi
+}

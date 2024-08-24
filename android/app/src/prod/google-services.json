@@ -1,0 +1,94 @@
+{
+  "project_info": {
+    "project_number": "906533537374",
+    "project_id": "avahan-ceff5",
+    "storage_bucket": "avahan-ceff5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:906533537374:android:c5f895ee316d1c8d8756cf",
+        "android_client_info": {
+          "package_name": "com.avahan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "906533537374-3shmsli7dfupcqg99d8239fgbc059c2n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.avahan",
+            "certificate_hash": "b165e4c08fe2f8d45ed2dd6056b194dfa75b58e1"
+          }
+        },
+        {
+          "client_id": "906533537374-5fq7v7lljpbbpav8bn737lutch1ffu05.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.avahan",
+            "certificate_hash": "9ee1356815679ce97a26498d6a8833b75d4ea383"
+          }
+        },
+        {
+          "client_id": "906533537374-65ciuvo2gks90atpe5ndufjnvg3tr5ob.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.avahan",
+            "certificate_hash": "3adeb24d77cc8fd8f164befba458128092b4a935"
+          }
+        },
+        {
+          "client_id": "906533537374-7sar52nqkhedb23l5jn8c066tnhvgrgp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.avahan",
+            "certificate_hash": "96f28f3f92e44e8793440da6e5384367a390810f"
+          }
+        },
+        {
+          "client_id": "906533537374-9ocrvaair2q85r9lnack9ckeidq9rgc9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.avahan",
+            "certificate_hash": "03b4fc57114171d8782911b8a2b6fc9bf866a719"
+          }
+        },
+        {
+          "client_id": "906533537374-pjbkra4n2pqgkv48roiiv0b06amr68k4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.avahan",
+            "certificate_hash": "0c97bccaab275a49f5c8c98cc8fd1ae11b67a695"
+          }
+        },
+        {
+          "client_id": "906533537374-a17c7hig8q94mjv16q0d3su1mkjjk7s5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCm_F-35vHE8No7iZJz5lRCvrrZ4dLrpf0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "906533537374-a17c7hig8q94mjv16q0d3su1mkjjk7s5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "906533537374-68cmfb6ish7t0eojbafg05hc6dqsge4i.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.avahan"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,75 @@
+CREATE OR REPLACE FUNCTION get_last_sessions(
+  IN type TEXT,
+  IN id INT,
+  IN start_date TIMESTAMP WITH TIME ZONE,
+  IN end_date TIMESTAMP WITH TIME ZONE
+)
+
+RETURNS TABLE (
+  count INT,
+  popular_track_ids []JSON,
+  tracks_count INT,
+)
+
+LANGUAGE sql AS $$
+SELECT
+  COUNT(*) AS count,
+  ARRAY(SELECT play_sessions."trackId" FROM play_sessions WHERE play_sessions."rootType" = type AND play_sessions."rootId" = id AND "duration" > play_sessions."totalDuration" * 0.5 AND
+  "createdAt" >= start_date AND "createdAt" <= end_date  GROUP BY play_sessions."trackId" ORDER BY COUNT(*) DESC LIMIT 20) AS popular_track_ids,
+  "rootId"
+FROM play_sessions
+WHERE "userId" = uid
+GROUP BY "rootType", "rootId"
+ORDER BY MAX("createdAt") DESC
+limit 10
+$$
+
+
+LANGUAGE sql AS $$
+WITH session_summary AS (
+  SELECT
+    COUNT(*) AS total_play_sessions,
+    ARRAY(SELECT play_sessions."trackId" FROM play_sessions WHERE "duration" > play_sessions."totalDuration" * 0.5 AND
+    "createdAt" >= start_date AND "createdAt" <= end_date  GROUP BY play_sessions."trackId" ORDER BY COUNT(*) DESC LIMIT 20) AS popular_track_ids,
+    ARRAY(SELECT play_sessions."rootId" FROM play_sessions WHERE play_sessions."rootType" = 'category' AND "duration" > play_sessions."totalDuration" * 0.5 AND "createdAt" >= start_date AND "createdAt" <= end_date  GROUP BY play_sessions."rootId" ORDER BY COUNT(*) DESC LIMIT 20) AS popular_category_ids,
+    ARRAY(SELECT play_sessions."rootId" FROM play_sessions WHERE play_sessions."rootType" = 'artist' AND "duration" > play_sessions."totalDuration" * 0.5 AND "createdAt" >= start_date AND "createdAt" <= end_date  GROUP BY play_sessions."rootId" ORDER BY COUNT(*) DESC LIMIT 20) AS popular_artist_ids,
+    ARRAY(SELECT play_sessions."rootId" FROM play_sessions WHERE play_sessions."rootType" = 'playlist' AND "duration" > play_sessions."totalDuration" * 0.5 AND "createdAt" >= start_date AND "createdAt" <= end_date  GROUP BY play_sessions."rootId" ORDER BY COUNT(*) DESC LIMIT 20) AS popular_playlist_ids,
+    ARRAY(SELECT play_sessions."rootId" FROM play_sessions WHERE play_sessions."rootType" = 'mood' AND "duration" > play_sessions."totalDuration" * 0.5 AND "createdAt" >= start_date AND "createdAt" <= end_date  GROUP BY play_sessions."rootId" ORDER BY COUNT(*) DESC LIMIT 20) AS popular_mood_ids,
+    ARRAY(SELECT play_sessions."trackId" FROM play_sessions WHERE "duration" < play_sessions."totalDuration" * 0.25 AND  "createdAt" >= start_date AND "createdAt" <= end_date GROUP BY play_sessions."trackId" ORDER BY COUNT(*) DESC LIMIT 20) AS skipped_track_ids
+  FROM
+    play_sessions
+  WHERE
+    "createdAt" >= start_date AND "createdAt" <= end_date  
+),
+root_type_summary AS (
+  SELECT
+    COUNT(*) AS count,
+    COUNT(DISTINCT play_sessions."trackId") AS tracks_count,
+    COUNT(DISTINCT CASE WHEN play_sessions."rootType" = 'category' THEN play_sessions."rootId" END) AS categories_count,
+    COUNT(DISTINCT CASE WHEN play_sessions."rootType" = 'artist' THEN play_sessions."rootId" END) AS artists_count,
+    COUNT(DISTINCT CASE WHEN play_sessions."rootType" = 'mood' THEN play_sessions."rootId" END) AS moods_count,
+    COUNT(DISTINCT CASE WHEN play_sessions."rootType" = 'playlist' THEN play_sessions."rootId" END) AS playlists_count
+  FROM
+    play_sessions
+  WHERE
+    "createdAt" >= start_date AND "createdAt" <= end_date  
+  GROUP BY
+    play_sessions."rootType"
+)
+SELECT
+  total_play_sessions,
+  popular_track_ids,
+  popular_category_ids,
+  popular_artist_ids,
+  popular_playlist_ids,
+  popular_mood_ids,
+  skipped_track_ids,
+  count,
+  tracks_count,
+  categories_count,
+  artists_count,
+  moods_count,
+  playlists_count
+FROM
+  session_summary, root_type_summary;
+$$;

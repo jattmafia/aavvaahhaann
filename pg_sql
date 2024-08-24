@@ -1,0 +1,638 @@
+CREATE OR REPLACE FUNCTION calculate_play_session_metrics_of_user(
+  IN user_id INT
+)
+
+RETURNS TABLE (
+  total_play_sessions INT,
+  popular_track_ids JSON[],
+  popular_category_ids JSON[],
+  popular_artist_ids JSON[],
+  popular_playlist_ids JSON[],
+  popular_mood_ids JSON[],
+  skipped_track_ids JSON[],
+  count INT,
+  tracks_count INT,
+  categories_count INT,
+  artists_count INT,
+  moods_count INT,
+  playlists_count INT
+)
+
+
+LANGUAGE sql AS $$
+WITH session_summary AS (
+  SELECT
+    COUNT(*) AS total_play_sessions,
+    ARRAY(
+      SELECT jsonb_build_object('id', play_sessions."trackId", 'count', COUNT(*))
+      FROM play_sessions
+      WHERE "duration" > play_sessions."totalDuration" * 0.50 AND
+        play_sessions."userId" = user_id
+      GROUP BY play_sessions."trackId"
+      ORDER BY COUNT(*) DESC LIMIT 20
+    ) AS popular_track_ids,
+    ARRAY(
+      SELECT jsonb_build_object('id', play_sessions."rootId", 'count', COUNT(*))
+      FROM play_sessions
+      WHERE play_sessions."rootType" = 'artist' 
+        AND "duration" > play_sessions."totalDuration" * 0.50 AND
+        play_sessions."userId" = user_id
+      GROUP BY play_sessions."rootId"
+      ORDER BY COUNT(*) DESC LIMIT 20
+    ) AS popular_artist_ids,
+    ARRAY(
+      SELECT jsonb_build_object('id', play_sessions."rootId", 'count', COUNT(*))
+      FROM play_sessions
+      WHERE play_sessions."rootType" = 'category' 
+        AND "duration" > play_sessions."totalDuration" * 0.50 AND
+        play_sessions."userId" = user_id
+      GROUP BY play_sessions."rootId"
+      ORDER BY COUNT(*) DESC LIMIT 20
+    ) AS popular_category_ids,
+    ARRAY(
+      SELECT jsonb_build_object('id', play_sessions."rootId", 'count', COUNT(*))
+      FROM play_sessions
+      WHERE play_sessions."rootType" = 'playlist' 
+        AND "duration" > play_sessions."totalDuration" * 0.50 AND
+        play_sessions."userId" = user_id
+      GROUP BY play_sessions."rootId"
+      ORDER BY COUNT(*) DESC LIMIT 20
+    ) AS popular_playlist_ids,
+    ARRAY(
+      SELECT jsonb_build_object('id', play_sessions."rootId", 'count', COUNT(*))
+      FROM play_sessions
+      WHERE play_sessions."rootType" = 'mood' 
+        AND "duration" > play_sessions."totalDuration" * 0.50 AND
+        play_sessions."userId" = user_id
+      GROUP BY play_sessions."rootId"
+      ORDER BY COUNT(*) DESC LIMIT 20
+    ) AS popular_mood_ids,
+    ARRAY(
+      SELECT jsonb_build_object('id', play_sessions."trackId", 'count', COUNT(*))
+      FROM play_sessions
+      WHERE "duration" < play_sessions."totalDuration" * 0.25 AND
+        play_sessions."userId" = user_id
+      GROUP BY play_sessions."trackId"
+      ORDER BY COUNT(*) DESC LIMIT 20
+    ) AS skipped_track_ids
+  FROM play_sessions
+  WHERE play_sessions."userId" = user_id
+),
+root_type_summary AS (
+  SELECT
+    COUNT(*) AS count,
+    COUNT(DISTINCT play_sessions."trackId") AS tracks_count,
+    COUNT(DISTINCT CASE WHEN play_sessions."rootType" = 'category' THEN play_sessions."rootId" END) AS categories_count,
+    COUNT(DISTINCT CASE WHEN play_sessions."rootType" = 'artist' THEN play_sessions."rootId" END) AS artists_count,
+    COUNT(DISTINCT CASE WHEN play_sessions."rootType" = 'mood' THEN play_sessions."rootId" END) AS moods_count,
+    COUNT(DISTINCT CASE WHEN play_sessions."rootType" = 'playlist' THEN play_sessions."rootId" END) AS playlists_count
+  FROM play_sessions
+  WHERE play_sessions."userId" = user_id
+)
+SELECT
+  total_play_sessions,
+  popular_track_ids,
+  popular_category_ids,
+  popular_artist_ids,
+  popular_playlist_ids,
+  popular_mood_ids,
+  skipped_track_ids,
+  count,
+  tracks_count,
+  categories_count,
+  artists_count,
+  moods_count,
+  playlists_count
+FROM session_summary, root_type_summary;
+$$;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CREATE OR REPLACE FUNCTION calculate_play_session_metrics(
+  IN start_date TIMESTAMP WITH TIME ZONE,
+  IN end_date TIMESTAMP WITH TIME ZONE
+)
+RETURNS TABLE (
+  total_play_sessions INT,
+  popular_track_ids JSON[],
+  popular_category_ids JSON[],
+  popular_artist_ids JSON[],
+  popular_playlist_ids JSON[],
+  popular_mood_ids JSON[],
+  skipped_track_ids JSON[],
+  count INT,
+  tracks_count INT,
+  categories_count INT,
+  artists_count INT,
+  moods_count INT,
+  playlists_count INT
+)
+LANGUAGE sql AS $$
+WITH session_summary AS (
+  SELECT
+    COUNT(*) AS total_play_sessions,
+    ARRAY(
+      SELECT jsonb_build_object('id', play_sessions."trackId", 'count', COUNT(*))
+      FROM play_sessions
+      WHERE "duration" > play_sessions."totalDuration" * 0.50
+        AND "createdAt" >= start_date
+        AND "createdAt" <= end_date
+      GROUP BY play_sessions."trackId"
+      -- ORDER BY COUNT(*) DESC LIMIT 20
+    ) AS popular_track_ids,
+    ARRAY(
+      SELECT jsonb_build_object('id', play_sessions."rootId", 'count', COUNT(*))
+      FROM play_sessions
+      WHERE play_sessions."rootType" = 'artist' 
+        AND "duration" > play_sessions."totalDuration" * 0.50
+        AND "createdAt" >= start_date
+        AND "createdAt" <= end_date
+      GROUP BY play_sessions."rootId"
+      -- ORDER BY COUNT(*) DESC LIMIT 20
+    ) AS popular_artist_ids,
+    ARRAY(
+      SELECT jsonb_build_object('id', play_sessions."rootId", 'count', COUNT(*))
+      FROM play_sessions
+      WHERE play_sessions."rootType" = 'category' 
+        AND "duration" > play_sessions."totalDuration" * 0.50
+        AND "createdAt" >= start_date
+        AND "createdAt" <= end_date
+      GROUP BY play_sessions."rootId"
+      -- ORDER BY COUNT(*) DESC LIMIT 20
+    ) AS popular_category_ids,
+    ARRAY(
+      SELECT jsonb_build_object('id', play_sessions."rootId", 'count', COUNT(*))
+      FROM play_sessions
+      WHERE play_sessions."rootType" = 'playlist' 
+        AND "duration" > play_sessions."totalDuration" * 0.50
+        AND "createdAt" >= start_date
+        AND "createdAt" <= end_date
+      GROUP BY play_sessions."rootId"
+      -- ORDER BY COUNT(*) DESC LIMIT 20
+    ) AS popular_playlist_ids,
+    ARRAY(
+      SELECT jsonb_build_object('id', play_sessions."rootId", 'count', COUNT(*))
+      FROM play_sessions
+      WHERE play_sessions."rootType" = 'mood' 
+        AND "duration" > play_sessions."totalDuration" * 0.50
+        AND "createdAt" >= start_date
+        AND "createdAt" <= end_date
+      GROUP BY play_sessions."rootId"
+      -- ORDER BY COUNT(*) DESC LIMIT 20
+    ) AS popular_mood_ids,
+    ARRAY(
+      SELECT jsonb_build_object('id', play_sessions."trackId", 'count', COUNT(*))
+      FROM play_sessions
+      WHERE "duration" < play_sessions."totalDuration" * 0.25
+        AND "createdAt" >= start_date
+        AND "createdAt" <= end_date
+      GROUP BY play_sessions."trackId"
+      -- ORDER BY COUNT(*) DESC LIMIT 20
+    ) AS skipped_track_ids
+  FROM play_sessions
+  WHERE "createdAt" >= start_date AND "createdAt" <= end_date
+),
+root_type_summary AS (
+  SELECT
+    COUNT(*) AS count,
+    COUNT(DISTINCT play_sessions."trackId") AS tracks_count,
+    COUNT(DISTINCT CASE WHEN play_sessions."rootType" = 'category' THEN play_sessions."rootId" END) AS categories_count,
+    COUNT(DISTINCT CASE WHEN play_sessions."rootType" = 'artist' THEN play_sessions."rootId" END) AS artists_count,
+    COUNT(DISTINCT CASE WHEN play_sessions."rootType" = 'mood' THEN play_sessions."rootId" END) AS moods_count,
+    COUNT(DISTINCT CASE WHEN play_sessions."rootType" = 'playlist' THEN play_sessions."rootId" END) AS playlists_count
+  FROM play_sessions
+  WHERE "createdAt" >= start_date AND "createdAt" <= end_date
+)
+SELECT
+  total_play_sessions,
+  popular_track_ids,
+  popular_category_ids,
+  popular_artist_ids,
+  popular_playlist_ids,
+  popular_mood_ids,
+  skipped_track_ids,
+  count,
+  tracks_count,
+  categories_count,
+  artists_count,
+  moods_count,
+  playlists_count
+FROM session_summary, root_type_summary;
+$$;
+
+
+
+
+CREATE OR REPLACE FUNCTION calculate_location_session_metrics(
+  IN start_date TIMESTAMP WITH TIME ZONE,
+  IN end_date TIMESTAMP WITH TIME ZONE
+)
+RETURNS TABLE (
+  country TEXT,
+  state TEXT,
+  city TEXT,
+  sessions_count INT,
+  active_users INT,
+  total_session_duration INTERVAL,
+  average_sessions FLOAT
+)
+LANGUAGE sql AS $$
+  SELECT
+      app_sessions."country",
+      app_sessions."state",
+      app_sessions."city",
+    COUNT(*) AS sessions_count,
+    COUNT(DISTINCT app_sessions."userId") AS active_users,
+    (SUM(EXTRACT(EPOCH FROM (app_sessions."endedAt" - app_sessions."createdAt"))) * interval '1 second') AS total_session_duration,
+    CASE
+      WHEN COUNT(DISTINCT app_sessions."userId") > 0
+      THEN CAST(COUNT(*) AS FLOAT) / COUNT(DISTINCT app_sessions."userId")
+      ELSE 0 -- or NULL or any default value you prefer
+    END AS average_sessions
+    FROM app_sessions
+    WHERE app_sessions."createdAt" >= start_date AND app_sessions."createdAt" <= end_date
+    GROUP BY app_sessions."country", app_sessions."state", app_sessions."city";
+$$;
+
+
+
+
+CREATE OR REPLACE FUNCTION calculate_session_metrics(
+  IN start_date TIMESTAMP WITH TIME ZONE,
+  IN end_date TIMESTAMP WITH TIME ZONE
+)
+RETURNS TABLE (
+  sessions_count INT,
+  active_users INT,
+  total_session_duration INTERVAL,
+  average_sessions FLOAT
+)
+LANGUAGE sql AS $$
+  SELECT
+    COUNT(*) AS sessions_count,
+    COUNT(DISTINCT "userId") AS active_users,
+    (SUM(EXTRACT(EPOCH FROM ("endedAt" - "createdAt"))) * interval '1 second') AS total_session_duration,
+    CASE
+      WHEN COUNT(DISTINCT "userId") > 0
+      THEN CAST(COUNT(*) AS FLOAT) / COUNT(DISTINCT "userId")
+      ELSE 0 -- or NULL or any default value you prefer
+    END AS average_sessions
+  FROM
+    app_sessions
+  WHERE
+    "createdAt" >= start_date AND "createdAt" <= end_date;
+$$;
+
+
+
+
+-- CREATE OR REPLACE FUNCTION get_last_sessions(
+--   IN uid INT
+-- )
+-- RETURNS TABLE (
+--   rootType TEXT,
+--   rootId INT
+-- )
+
+-- LANGUAGE sql AS $$
+-- SELECT
+--   "rootType",
+--   "rootId"
+-- FROM play_sessions
+-- WHERE "userId" = uid
+-- GROUP BY "rootType", "rootId"
+-- ORDER BY MAX("createdAt") DESC
+-- limit 10
+-- $$
+
+CREATE OR REPLACE FUNCTION get_last_sessions(
+  IN uid INT
+)
+RETURNS TABLE (
+  rootType TEXT,
+  rootId INT
+)
+
+LANGUAGE sql AS $$
+SELECT
+  'track' AS "rootType",
+  "trackId"
+FROM play_sessions
+WHERE "userId" = uid
+GROUP BY "trackId"
+ORDER BY MAX("createdAt") DESC
+limit 6
+$$
+
+
+
+
+
+CREATE OR REPLACE FUNCTION get_play_session_metrics_of_root(
+  IN root_type TEXT,
+  IN root_id INT,
+  IN start_date TIMESTAMP WITH TIME ZONE,
+  IN end_date TIMESTAMP WITH TIME ZONE
+)
+
+RETURNS TABLE (
+  count INT,
+  tracks JSON[]
+)
+
+LANGUAGE sql AS $$
+SELECT
+  COUNT(*) AS count,
+  ARRAY(
+    SELECT jsonb_build_object('id', play_sessions."trackId", 'count', COUNT(*))
+    FROM play_sessions
+    WHERE play_sessions."rootType" = root_type AND play_sessions."rootId" = root_id AND "duration" > play_sessions."totalDuration" * 0.25
+      AND "createdAt" >= start_date
+      AND "createdAt" <= end_date
+    GROUP BY play_sessions."trackId"
+  ) AS tracks
+  FROM
+    play_sessions
+  WHERE
+    "createdAt" >= start_date AND "createdAt" <= end_date AND play_sessions."rootType" = root_type AND play_sessions."rootId" = root_id
+$$
+
+
+
+
+
+
+CREATE OR REPLACE FUNCTION calculate_track_metrics(
+  IN track_id INT,
+  IN start_date TIMESTAMP WITH TIME ZONE,
+  IN end_date TIMESTAMP WITH TIME ZONE
+)
+
+RETURNS TABLE (
+  likes INT,
+  count INT,
+  skips INT,
+  roots JSON[]
+)
+
+
+LANGUAGE sql AS $$
+WITH library_summary AS (
+  SELECT
+    COUNT(*) AS likes
+  FROM library_items
+  WHERE library_items."itemId" = 11 AND library_items.type = 'track' AND "createdAt" >= start_date AND "createdAt" <= end_date
+),
+play_summary AS (
+  SELECT
+    COUNT(*) AS count,
+    ARRAY(
+      SELECT jsonb_build_object('rootType', play_sessions."rootType", 'rootId', play_sessions."rootId", 'count', COUNT(*))
+      FROM play_sessions
+      WHERE play_sessions."trackId" = track_id AND "createdAt" >= start_date AND "createdAt" <= end_date
+      GROUP BY play_sessions."rootType", play_sessions."rootId"
+    ) as roots    
+  FROM play_sessions
+  WHERE play_sessions."trackId" = track_id AND "createdAt" >= start_date AND "createdAt" <= end_date
+),
+
+skip_summary AS (
+  SELECT
+    COUNT(*) AS skips
+  FROM play_sessions
+  WHERE play_sessions."trackId" = track AND "duration" < play_sessions."totalDuration" * 0.25 AND "createdAt" >= start_date AND "createdAt" <= end_date
+)
+
+SELECT
+  likes,
+  count,
+  skips,
+  roots
+FROM play_summary, library_summary, skip_summary;
+$$;
+
+
+
+
+CREATE OR REPLACE FUNCTION calculate_track_metrics(
+  IN track_id INT,
+  IN start_date TIMESTAMP WITH TIME ZONE,
+  IN end_date TIMESTAMP WITH TIME ZONE
+)
+
+RETURNS TABLE (
+  likes INT,
+  count INT,
+  skips INT,
+  roots JSON[]
+)
+
+
+LANGUAGE sql AS $$
+WITH library_summary AS (
+  SELECT
+    COUNT(*) AS likes
+  FROM library_items
+  WHERE library_items."itemId" = 11 AND library_items.type = 'track' AND "createdAt" >= start_date AND "createdAt" <= end_date
+),
+play_summary AS (
+  SELECT
+    COUNT(*) AS count,
+    ARRAY(
+      SELECT jsonb_build_object('rootType', play_sessions."rootType", 'rootId', play_sessions."rootId", 'count', COUNT(*))
+      FROM play_sessions
+      WHERE play_sessions."trackId" = track_id AND "createdAt" >= start_date AND "createdAt" <= end_date
+      GROUP BY play_sessions."rootType", play_sessions."rootId"
+    ) as roots    
+  FROM play_sessions
+  WHERE play_sessions."trackId" = track_id AND "createdAt" >= start_date AND "createdAt" <= end_date
+),
+
+skip_summary AS (
+  SELECT
+    COUNT(*) AS skips
+  FROM play_sessions
+  WHERE play_sessions."trackId" = track_id AND "duration" < play_sessions."totalDuration" * 0.25 AND "createdAt" >= start_date AND "createdAt" <= end_date
+)
+
+SELECT
+  likes,
+  count,
+  skips,
+  roots
+FROM play_summary, library_summary, skip_summary;
+$$;
+
+
+
+
+select
+  cron.schedule(
+    'invoke-function-15-minute',
+    '*/15 * * * *', -- every minute
+    $$
+    select
+      net.http_post(
+          url:='https://hjwmlcxlxihwgyvjzjak.supabase.co/functions/v1/notify_cron',
+          headers:='{"Content-Type": "application/json", "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhqd21sY3hseGlod2d5dmp6amFrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDY4NTc2OTQsImV4cCI6MjAyMjQzMzY5NH0.JJ--wYJvwr7Fh7DiBDmMmMZPAvhbD46ljiRXalbGZJk"}'::jsonb,
+          body:=concat('{"time": "', now(), '"}')::jsonb
+      ) as request_id;
+    $$
+  );
+-- select cron.unschedule('invoke-function-15-minute');
+
+
+
+
+UPDATE tracks
+SET "searchKey" = trim(both ' ' from (
+    tracks."nameEn" ||
+    CASE WHEN tracks."nameHi" IS NOT NULL THEN ' ' || tracks."nameHi" ELSE '' END ||
+    ' ' || array_to_string(tracks.tags, ' ')
+));
+
+
+
+
+
+CREATE OR REPLACE FUNCTION get_banner_stats(banner_ids text[])
+RETURNS JSONB AS $$
+DECLARE
+  result JSONB := '{}';
+  banner_id text;
+  today_count int;
+  last7days_count int;
+  last30days_count int;
+  this_month_count int;
+  total_count int;
+BEGIN
+  FOREACH banner_id IN ARRAY banner_ids
+  LOOP
+    -- Count clicks for today
+    SELECT COUNT(*)
+    INTO today_count
+    FROM banner_clicks
+    WHERE "bannerId" = banner_id AND "createdAt"::date = CURRENT_DATE;
+    
+    -- Count clicks for the last 7 days
+    SELECT COUNT(*)
+    INTO last7days_count
+    FROM banner_clicks
+    WHERE "bannerId" = banner_id AND "createdAt"::date >= CURRENT_DATE - INTERVAL '6 days';
+
+    -- Count clicks for the last 30 days
+    SELECT COUNT(*)
+    INTO last30days_count
+    FROM banner_clicks
+    WHERE "bannerId" = banner_id AND "createdAt"::date >= CURRENT_DATE - INTERVAL '29 days';
+
+    -- Count clicks for this month
+    SELECT COUNT(*)
+    INTO this_month_count
+    FROM banner_clicks
+    WHERE "bannerId" = banner_id AND date_trunc('month', "createdAt") = date_trunc('month', CURRENT_DATE);
+
+    -- Count total clicks
+    SELECT COUNT(*)
+    INTO total_count
+    FROM banner_clicks
+    WHERE "bannerId" = banner_id;
+
+    -- Build the JSON object for the current banner_id
+    result := result || jsonb_build_object(
+      banner_id, jsonb_build_object(
+        'today', today_count,
+        'last7Days', last7days_count,
+        'last30Days', last30days_count,
+        'thisMonth', this_month_count,
+        'total', total_count
+      )
+    );
+  END LOOP;
+
+  RETURN result;
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+SELECT get_banner_stats(ARRAY['014e2901-ef94-1067-b53f-13b83b5a5faf', '014e2900-ef94-1067-b53f-13b83b5a5faf']);
+
+
+
+
+
+-- for geting random next track 
+create or replace function get_random_active_track()
+returns setof tracks
+language sql
+as $$
+   select * from tracks 
+   order by random()
+   limit 1;
+$$;
+
+
+
+
+
+
+
+-- older app session pgsql function
+
+
+  SELECT
+    COUNT(*) AS sessions_count,
+    COUNT(DISTINCT "userId") AS active_users,
+    (SUM(EXTRACT(EPOCH FROM ("endedAt" - "createdAt"))) * interval '1 second') AS total_session_duration,
+    CASE
+      WHEN COUNT(DISTINCT "userId") > 0
+      THEN CAST(COUNT(*) AS FLOAT) / COUNT(DISTINCT "userId")
+      ELSE 0 -- or NULL or any default value you prefer
+    END AS average_sessions
+  FROM
+    app_sessions
+  WHERE
+    "createdAt" >= start_date AND "createdAt" <= end_date;
+
+
+-- new for session 
+
+CREATE OR REPLACE FUNCTION calculate_session_metrics_new(
+  IN start_date TIMESTAMP WITH TIME ZONE,
+  IN end_date TIMESTAMP WITH TIME ZONE
+)
+RETURNS TABLE (
+  sessions_count INT,
+  active_users INT,
+  total_session_duration INTERVAL,
+  average_sessions FLOAT,
+  user_ids_list TEXT[]
+)
+LANGUAGE sql AS $$
+  SELECT
+    COUNT(*) AS sessions_count,
+    COUNT(DISTINCT "userId") AS active_users,
+    (SUM(EXTRACT(EPOCH FROM ("endedAt" - "createdAt"))) * interval '1 second') AS total_session_duration,
+    CASE
+      WHEN COUNT(DISTINCT "userId") > 0
+      THEN CAST(COUNT(*) AS FLOAT) / COUNT(DISTINCT "userId")
+      ELSE 0 -- or NULL or any default value you prefer
+    END AS average_sessions,
+    ARRAY_AGG(DISTINCT "userId") FILTER (WHERE "userId" IS NOT NULL) AS user_ids_list
+  FROM
+    app_sessions
+  WHERE
+    "createdAt" >= start_date AND "createdAt" <= end_date;
+$$;

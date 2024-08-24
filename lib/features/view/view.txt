@@ -1,0 +1,187 @@
+// import 'package:avahan/core/models/music_category.dart';
+// import 'package:avahan/core/providers/lang_provider.dart';
+// import 'package:avahan/utils/extensions.dart';
+// import 'package:cached_network_image/cached_network_image.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_hooks/flutter_hooks.dart';
+// import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+// class CategoryPage extends HookConsumerWidget {
+//   const CategoryPage({super.key, required this.category});
+
+//   final MusicCategory category;
+
+//   static const route = '/category';
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     final lang = ref.watch(langProvider);
+
+//     final image = category.cover(lang);
+
+//     final memorised = useMemoized(
+//         () => ColorScheme.fromImageProvider(
+//               provider: CachedNetworkImageProvider(image),
+//             ),
+//         []);
+
+//     final schemeAsync = useFuture(memorised);
+//     final controller = useScrollController();
+
+//     final gradientHeight =
+//         context.size_.width * 2 / 3 - kToolbarHeight - context.padding.top;
+
+//     final offset = useState(0.0);
+
+//     useEffect(() {
+//       controller.addListener(() {
+//         offset.value = controller.offset;
+//       });
+//     }, []);
+
+//     final progress = (offset.value / gradientHeight).clamp(0.0, 1).toDouble();
+
+//     final colorScheme = schemeAsync.data ?? context.scheme;
+//     return Scaffold(
+//       // extendBodyBehindAppBar: true,
+//       // appBar: AppBar(
+//       //   backgroundColor: ColorTween(
+//       //     begin: colorScheme.primaryContainer.withOpacity(0),
+//       //     end: colorScheme.primaryContainer,
+//       //   ).transform((progress * 1.25).clamp(0, 1))!,
+//       //   // backgroundColor: colorScheme.primaryContainer,
+//       //   // forceMaterialTransparency: progress > 0.5 ? false : true,
+//       //   title: progress > 0.5
+//       //       ? Text(
+//       //           category.name(lang),
+//       //         )
+//       //       : null,
+//       //   leadingWidth: 16 + kToolbarHeight,
+//       //   leading: Container(
+//       //     margin: const EdgeInsets.only(left: 16),
+//       //     decoration: BoxDecoration(
+//       //       shape: BoxShape.circle,
+//       //       color: colorScheme.primaryContainer.withOpacity(0.5),
+//       //     ),
+//       //     child: BackButton(
+//       //       color: colorScheme.onPrimaryContainer,
+//       //     ),
+//       //   ),
+//       //   titleTextStyle: TextStyle(
+//       //     color: ColorTween(
+//       //       begin: colorScheme.onPrimaryContainer.withOpacity(0),
+//       //       end: colorScheme.onPrimaryContainer,
+//       //     ).transform(((progress - 0.5) / 0.5).clamp(0, 1))!,
+//       //     fontWeight: FontWeight.bold,
+//       //     fontSize: 16,
+//       //   ),
+//       // ),
+//       body: Stack(
+//         children: [
+//           SizedBox(
+//             height: context.size_.width * 2 / 3 + context.padding.top,
+//             width: double.infinity,
+//             child: CachedNetworkImage(
+//               imageUrl: image,
+//               fit: BoxFit.cover,
+//             ),
+//           ),
+//           Column(
+//             children: [
+//               AppBar(
+//                 backgroundColor: ColorTween(
+//                   begin: colorScheme.primaryContainer.withOpacity(0),
+//                   end: colorScheme.primaryContainer,
+//                 ).transform((progress * 1.25).clamp(0, 1))!,
+//                 leadingWidth: 16 + kToolbarHeight,
+//                 leading: Container(
+//                   margin: const EdgeInsets.only(left: 16),
+//                   decoration: BoxDecoration(
+//                     shape: BoxShape.circle,
+//                     color: colorScheme.primaryContainer.withOpacity(0.5),
+//                   ),
+//                   child: BackButton(
+//                     color: colorScheme.onPrimaryContainer,
+//                   ),
+//                 ),
+//                 titleTextStyle: TextStyle(
+//                   color: ColorTween(
+//                     begin: colorScheme.onPrimaryContainer.withOpacity(0),
+//                     end: colorScheme.onPrimaryContainer,
+//                   ).transform(((progress - 0.5) / 0.5).clamp(0, 1))!,
+//                   fontWeight: FontWeight.bold,
+//                   fontSize: 16,
+//                 ),
+//                 title: Text(
+//                   category.name(lang),
+//                 ),
+//               ),
+//               Expanded(
+//                 child: ListView(
+//                   padding: EdgeInsets.zero,
+//                   controller: controller,
+//                   children: [
+//                     Container(
+//                       height: gradientHeight,
+//                       alignment: Alignment.bottomLeft,
+//                       decoration: BoxDecoration(
+//                         gradient: LinearGradient(
+//                           colors: [
+//                             ColorTween(
+//                               begin:
+//                                   colorScheme.primaryContainer.withOpacity(0.0),
+//                               end: colorScheme.primaryContainer,
+//                             ).transform(progress)!,
+//                             // colorScheme.primaryContainer.withOpacity(0),
+//                             // colorScheme.primaryContainer.withOpacity(0.25),
+//                             ColorTween(
+//                               begin: colorScheme.primaryContainer
+//                                   .withOpacity(0.75),
+//                               end: colorScheme.primaryContainer,
+//                             ).transform(progress)!,
+//                           ],
+//                           begin: Alignment.topCenter,
+//                           end: Alignment.bottomCenter,
+//                         ),
+//                       ),
+//                       padding: const EdgeInsets.all(16),
+//                       child: Text(
+//                         category.name(lang),
+//                         style: context.style.displayMedium!.copyWith(
+//                           fontWeight: FontWeight.bold,
+//                           color: colorScheme.onPrimaryContainer,
+//                         ),
+//                       ),
+//                     ),
+//                     Container(
+//                       color: colorScheme.surface,
+//                       child: Stack(
+//                         children: [
+//                           Container(
+//                             height: context.size_.width,
+//                             decoration: BoxDecoration(
+//                               gradient: LinearGradient(
+//                                 colors: [
+//                                   colorScheme.primaryContainer,
+//                                   colorScheme.primaryContainer.withOpacity(0),
+//                                 ],
+//                                 begin: Alignment.topCenter,
+//                                 end: Alignment.bottomCenter,
+//                               ),
+//                             ),
+//                           ),
+//                           SizedBox(
+//                             height: context.size_.height,
+//                           )
+//                         ],
+//                       ),
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }

@@ -1,0 +1,224 @@
+{
+    "aboutUs": "About Us",
+    "addArtist": "Add Artist",
+    "addToPlaylist": "Add to playlist",
+    "addedToLikedMusic": "Added to Liked Music",
+    "appUpdateRequired": "App Update Required!",
+    "artist": "Artist",
+    "artists": "Artists",
+    "astrologer": "Astrologer",
+    "author": "Author",
+    "avahan": "Avahan",
+    "avahanPrivacypolicy": "Avahan's Privacy Policy",
+    "avahanTermsOfUse": "Avahan Terms of Use",
+    "byContinuingYouWillBeLoggedOutFromTheOtherDevice": "By continuing, you will be logged out from the other device",
+    "byTappingYouAgreeToCreateAccount": "By tapping 'Create account' you agree to the ",
+    "cancel": "Cancel",
+    "categories": "Categories",
+    "category": "Category",
+    "chooseYourPreferredLanguage": "Choose your preferred language",
+    "changeEmail": "Change email",
+    "changePassword": "Change password",
+    "changeYourPassword": "Change your password",
+    "changePhoneNumber": "Change phone number",
+    "changeYourPhoneNumber": "Change your phone number",
+    "changeYourEmail": "Change your email",
+    "completeYourProfile": "Complete your profile for a better experience!",
+    "enterYourNewEmailAddress": "Enter your new email address",
+    "city": "City",
+    "yourDateOfBirth": "Your {value} aren’t filled in yet. Sharing these details will help us cater exclusive content. Your preferences really matter to us.",
+    "dateOfBirth": "Date of birth",
+    "dateOfBirthFormat": "date of birth",
+    "cityState": "City/State",
+    "and": "&",
+    "@yourDateOfBirth": {
+        "placeholders": {
+            "value": {
+                "type": "String"
+            }
+        }
+    },
+    "composer": "Composer",
+    "continue_": "Continue",
+    "continueAsGuest": "Continue as Guest",
+    "continueWithFacebook": "Continue with Facebook",
+    "continueWithGoogle": "Continue with Google",
+    "continueWithApple": "Continue with Apple",
+    "continueWithPhoneNumber": "Continue with phone number",
+    "contributor": "Contributor",
+    "country": "Country",
+    "create": "Create",
+    "createANewPassword": "Create a new password",
+    "createAccount": "Create account",
+    "createApassword": "Create a password?",
+    "description": "Description",
+    "done": "Done",
+    "downloadedTracks": "Downloaded tracks",
+    "download": "Download",
+    "downloads": "Downloads",
+    "downloadedMusic": "Downloaded Music",
+    "email": "Email",
+    "emailChangedSuccessfully": "Email changed successfully",
+    "emailNotChanged": "Email not changed!",
+    "enterPhoneNumber": "Enter phone number",
+    "enterYourNewPhoneNumber": "Enter your new phone number",
+    "enjoyAPersonalizedTouchInOurApp": "Enjoy a personalized touch in our app! Give your location to receive warm greetings tailored to your region.",
+    "enterYourCode": "Enter your code",
+    "enterYourEmailAddress": "Enter your email address",
+    "female": "Female",
+    "findPlaylist": "Find playlist",
+    "forgotPassword": "Forgot password?",
+    "freeTrial": "Free Trial",
+    "getInTouchWithAvahanIfYouNeedAnyHelp": "Get in touch with Avahan if you need any help",
+    "giveYourPlaylistAname": "Give your playlist a name",
+    "goToDownloads": "Go to downloads",
+    "helpSupport": "Help & Support",
+    "hiThere": "Hi there!",
+    "home": "Home",
+    "iconImage": "Icon Image",
+    "knowMoreAboutAvahan": "Know more about Avahan",
+    "language": "Language",
+    "lifeTime": "Lifetime",
+    "like": "Like",
+    "liked": "Liked",
+    "likedMusic": "Liked Music",
+    "likedMusics": "Liked Musics",
+    "log_in": "Log in",
+    "login": "Log in with email",
+    "logout": "Logout",
+    "loggedInSuccessfully": "Logged in successfully!",
+    "loveTheAppRateUsOnThePlayStore": "Love the app? Rate us on the Play Store with 5 stars",
+    "lyricist": "Lyricist",
+    "male": "Male",
+    "manageProfilePasswordAndMore": "Manage profile, password, and more",
+    "mood": "Mood",
+    "moods": "Moods",
+    "name": "Name",
+    "namaskar": "Namaskar",
+    "narrator": "Narrator",
+    "newPlaylist": "New playlist",
+    "next": "Next",
+    "noInternetConnection": "No internet connection",
+    "noIwillUpdateLater": "NO, I WILL UPDATE LATER",
+    "nonBinary": "Non-binary",
+    "noNotificationAvailable": "No notifications available!",
+    "noSearchResultFound": "No search result found",
+    "notificationPermissionDenied": "Notification Permission Denied",
+    "notifications": "Notifications",
+    "noTracksAvailable": "No tracks available!",
+    "ok": "Ok",
+    "openEmailApp": "Open Email app",
+    "optional": " (optional)",
+    "other": "Other",
+    "pandit": "Pandit",
+    "password": "Password",
+    "passwordUpdatedSuccessfully": "Password updated successfully!",
+    "passwordResetLinkHasBeenSentAt": "Password reset link has been sent at",
+    "phoneNumberLoginIsSupported": "Phone number login is supported only for India",
+    "phoneNumberChangedSuccessfully": "Phone number changed successfully",
+    "playlist": "Playlist",
+    "playlists": "Playlists",
+    "playlistName": "Playlist name",
+    "pleaseGoToSettingsAndEnable": "Please go to settings and enable notification permissions.",
+    "preferNotToSay": "Prefer not to say",
+    "premium": "Premium",
+    "profile": "Profile",
+    "privacyPolicy": "Privacy Policy",
+    "recentSearches": "Recent searches",
+    "rateApp": "Rate App",
+    "recentPlaylist": "Recently played",
+    "removedFromLikedMusic": "Removed from Liked Music",
+    "retry": "Retry",
+    "resetYourPassword": "Reset your password",
+    "search": "Search",
+    "settings": "Settings",
+    "share": "Share",
+    "shareApp": "Share App",
+    "showMore": " Show more",
+    "showLess": " Show less",
+    "shareTheAppWithYourFriendsAndFamily": "Share the app with your friends and family",
+    "signUpForFree": "Sign up with email",
+    "singer": "Singer",
+    "signInSignUp": "Sign in / Sign up",
+    "skip": "Skip",
+    "state": "State",
+    "soundEngineer": "Sound Engineer",
+    "team": "Team",
+    "termsOfUse": "Terms of Use",
+    "track": "Track",
+    "tracks": "Tracks",
+    "toLearnMoreAboutAvahan": "To learn more about how Avahan collects, uses, shares and protects your personal data, please see the ",
+    "unlockAndDownloadAllContent": "Unlock & download all content. ​Go Premium",
+    "updateAvilable": "Update Avilable !",
+    "updatePassword": "Update password",
+    "updateNow": "Update Now",
+    "useAtleast": "Use at least 8 characters.",
+    "verifyYourEmail": "Verify your email",
+    "verifyYourNewEmail": "Verify your new email",
+    "verifyYourPreviousEmail": "Verify your previous email",
+    "view": "View",
+    "weWillSendYouACodeBySMS": "We'll send you a code by SMS to confirm your phone number.",
+    "weSentYouAnEmail": "We sent you an email for verification at {email}",
+    "whatDoYouWantToListenTo": "What do you want to listen to?",
+    "whatsYourDateOfBirth": "What's your date of birth?",
+    "whatsYourEmailAddress": "Whats your email address?",
+    "whatsYourGender": "What's your gender?",
+    "whatsYourName": "What's your name?",
+    "expiredOn": "Expired on {date}",
+    "save": "Save",
+    "@expiredOn": {
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "willExpireOn": "Will expire on {date}",
+    "@willExpireOn": {
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "youAreUsingAnOlderVersion": "You are using an older version",
+    "youAreAlreadyLoggedInOnAnotherDevice": "You are already logged in on another device",
+    "youHaveLifetimeAccessToPremiumFeatures": "You have lifetime access to Premium features",
+    "youNeedToConfirmEmailLater": "You'll need to confirm this email later.",
+    "youNeedToUpdateTheApp": "You need to update the app to access latest features.",
+    "yourCurrentAppVersionIsNoLongerSupported": "Your current app version is no longer supported. Update your app to get access to the most recent features.",
+    "yourLibrary": "Your Library",
+    "@weSentYouAnEmail": {
+        "placeholders": {
+            "email": {
+                "type": "String"
+            }
+        }
+    },
+    "songs": "{count} songs",
+    "@songs": {
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "playingFrom": "Playing from {name}",
+    "@playingFrom": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "didntReceive": "Didn't Receive a code?|Request again",
+    "didntReceiveInSec": "Didn't Receive a code? Request again in {sec} sec",
+    "@didntReceiveInSec": {
+        "placeholders": {
+            "sec": {
+                "type": "int"
+            }
+        }
+    },
+    "requestAgain": "Request again"
+}
